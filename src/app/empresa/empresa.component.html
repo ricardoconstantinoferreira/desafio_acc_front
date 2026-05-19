@@ -1,0 +1,79 @@
+<section class="empresa-page">
+  <header class="empresa-header">
+    <h1>Empresas</h1>
+  </header>
+
+  <main>
+    <section *ngIf="currentView === 'cadastro'" class="card">
+      <h2>Cadastro de Empresas</h2>
+
+      <form [formGroup]="form" (ngSubmit)="salvar()" class="empresa-form">
+        <label for="documento">Documento</label>
+        <input id="documento" type="text" formControlName="documento" placeholder="Digite o documento" (input)="onDocumentoInput($event)" />
+        <small class="error" *ngIf="form.controls.documento.touched && form.controls.documento.invalid">
+          Documento e obrigatorio.
+        </small>
+
+        <label for="nomeFantasia">Nome Fantasia</label>
+        <input id="nomeFantasia" type="text" formControlName="nomeFantasia" placeholder="Digite o nome fantasia" />
+        <small class="error" *ngIf="form.controls.nomeFantasia.touched && form.controls.nomeFantasia.invalid">
+          Nome fantasia e obrigatorio.
+        </small>
+
+        <label for="cep">CEP</label>
+        <input id="cep" type="text" formControlName="cep" placeholder="Digite o CEP" (input)="onCepInput($event)" />
+        <small class="error" *ngIf="form.controls.cep.touched && form.controls.cep.invalid">
+          CEP e obrigatorio.
+        </small>
+
+        <button type="submit">Salvar empresa</button>
+      </form>
+    </section>
+
+    <section *ngIf="currentView === 'listagem'" class="card">
+      <h2>Listagem de Empresas</h2>
+
+      <p *ngIf="empresas.length === 0" class="empty">Nenhuma empresa cadastrada ate o momento.</p>
+
+      <table *ngIf="empresas.length > 0" class="empresa-table">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Nome Fantasia</th>
+            <th>CEP</th>
+            <th>Acoes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let empresa of paginatedEmpresas">
+            <td>{{ empresa.documento }}</td>
+            <td>{{ empresa.fantasia }}</td>
+            <td>{{ empresa.cep }}</td>
+            <td>
+              <div class="table-actions">
+                <button type="button" class="btn-edit" (click)="editar(empresa)">Editar</button>
+                <button type="button" class="btn-remove" (click)="remover(empresa)">Remover</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="empresas.length > 0" class="paginacao">
+        <button type="button" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+        <span>Pagina {{ currentPage }} de {{ totalPages }}</span>
+        <button type="button" (click)="nextPage()" [disabled]="currentPage === totalPages">Proxima</button>
+      </div>
+    </section>
+  </main>
+
+  <div *ngIf="showModal" class="modal-backdrop" (click)="closeModal()">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
+      <h3 id="modal-title" [class.modal-success]="modalType === 'success'" [class.modal-error]="modalType === 'error'">
+        {{ modalTitle }}
+      </h3>
+      <p>{{ modalMessage }}</p>
+      <button type="button" (click)="closeModal()">Fechar</button>
+    </section>
+  </div>
+</section>
