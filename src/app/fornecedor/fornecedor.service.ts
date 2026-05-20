@@ -23,7 +23,7 @@ export class FornecedorService {
     return this.http.post<Fornecedor>(this.uri, fornecedor, this.options);
   }
 
-  atualizar(id: number, fornecedor: Pick<Fornecedor, 'documento' | 'nome' | 'cep'>): Observable<Fornecedor> {
+  atualizar(id: number, fornecedor: Pick<Fornecedor, 'documento' | 'nome' | 'cep' | 'email' | 'nascimento' | 'rg'>): Observable<Fornecedor> {
     return this.http.put<Fornecedor>(`${this.uri}/${id}`, fornecedor, this.options);
   }
 

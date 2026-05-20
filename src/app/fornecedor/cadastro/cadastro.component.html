@@ -87,7 +87,7 @@
 		</ng-container>
 
 		<button type="button" class="botao-salvar" [disabled]="salvando" (click)="salvarFornecedor()">
-			{{ salvando ? 'Salvando...' : 'Salvar fornecedor' }}
+			{{ salvando ? 'Salvando...' : (editingFornecedorId ? 'Atualizar fornecedor' : 'Salvar fornecedor') }}
 		</button>
 	</form>
 
