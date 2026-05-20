@@ -1,60 +1,68 @@
-# DesafioAccFront
+# Desafio ACC Front
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+Aplicação web para gestão de empresas e fornecedores.
 
-## Development server
+## O que o sistema faz
 
-To start a local development server, run:
+O sistema permite:
 
-```bash
-ng serve
-```
+- Cadastrar, listar, editar e remover empresas.
+- Cadastrar, listar, editar e remover fornecedores.
+- Validar CEP no cadastro de fornecedor por integração com ViaCEP.
+- Aplicar regras de negócio para pessoa física no cadastro de fornecedor.
+- Vincular fornecedores a uma empresa.
+- Consultar fornecedores por empresa em tela dedicada.
+- Buscar fornecedores por documento (CPF/CNPJ) ou por nome.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Tecnologias
 
-## Code scaffolding
+![Angular](https://img.shields.io/badge/Angular-19-DD0031?logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![RxJS](https://img.shields.io/badge/RxJS-7-B7178C?logo=reactivex&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![SCSS](https://img.shields.io/badge/SCSS-CSS-CC6699?logo=sass&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-runtime-339933?logo=nodedotjs&logoColor=white)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Estrutura funcional
 
-```bash
-ng generate component component-name
-```
+- Módulo Empresa
+  - Cadastro de empresa
+  - Listagem de empresas
+  - Adicionar fornecedores à empresa
+  - Fornecedores por empresa
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Módulo Fornecedor
+  - Cadastro de fornecedor com máscaras e validações
+  - Listagem com paginação, busca e ações de editar/remover
 
-```bash
-ng generate --help
-```
+## Como executar o projeto
 
-## Building
+Pré-requisitos:
 
-To build the project run:
+- Node.js instalado
+- NPM instalado
 
-```bash
-ng build
-```
+Passos:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+1. Instalar dependências
 
-## Running unit tests
+	npm install
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+2. Executar a aplicação em desenvolvimento
 
-```bash
-ng test
-```
+	npm start
 
-## Running end-to-end tests
+3. Acessar no navegador
 
-For end-to-end (e2e) testing, run:
+	http://localhost:4200
 
-```bash
-ng e2e
-```
+## Scripts disponíveis
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- npm start: inicia o servidor de desenvolvimento
+- npm run build: gera build de produção
+- npm test: executa os testes
 
-## Additional Resources
+## Observações
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# desafio_acc_front
+- A aplicação depende de uma API backend para persistência.
+- A validação de CEP utiliza o serviço público ViaCEP.
