@@ -1,1 +1,91 @@
-<p>cadastro works!</p>
+<section class="cadastro-fornecedor">
+	<h2>Cadastro de Fornecedor</h2>
+
+	<form class="formulario" autocomplete="off">
+		<div class="campo">
+			<label for="cep">CEP</label>
+			<input
+				id="cep"
+				name="cep"
+				type="text"
+				inputmode="numeric"
+				maxlength="9"
+				placeholder="00000-000"
+				[ngModel]="fornecedor.cep"
+				(ngModelChange)="onCepInput($event)"
+			/>
+		</div>
+
+		<div class="campo">
+			<label for="nome">Nome</label>
+			<input
+				id="nome"
+				name="nome"
+				type="text"
+				[(ngModel)]="fornecedor.nome"
+			/>
+		</div>
+
+		<div class="campo">
+			<label for="email">Email</label>
+			<input
+				id="email"
+				name="email"
+				type="email"
+				[(ngModel)]="fornecedor.email"
+			/>
+		</div>
+
+		<div class="campo">
+			<label for="documento">Documento (CPF ou CNPJ)</label>
+			<input
+				id="documento"
+				name="documento"
+				type="text"
+				inputmode="numeric"
+				maxlength="18"
+				placeholder="000.000.000-00 ou 00.000.000/0000-00"
+				[ngModel]="fornecedor.documento"
+				(ngModelChange)="onDocumentoInput($event)"
+			/>
+		</div>
+
+		<ng-container *ngIf="isCpfDocumento">
+			<div class="campo">
+				<label for="rg">RG</label>
+				<input
+					id="rg"
+					name="rg"
+					type="text"
+					[(ngModel)]="fornecedor.rg"
+				/>
+			</div>
+
+			<div class="campo">
+				<label for="dataNascimento">Data de Nascimento</label>
+				<div class="input-data-wrapper">
+					<input
+						#dataNascimentoInput
+						id="dataNascimento"
+						name="dataNascimento"
+						type="date"
+						[(ngModel)]="fornecedor.dataNascimento"
+					/>
+					<button
+						type="button"
+						class="botao-calendario"
+						(click)="abrirSeletorData(dataNascimentoInput)"
+						aria-label="Abrir calendário"
+						title="Abrir calendário"
+					>
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm12 8H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9ZM6 6a1 1 0 0 0-1 1v1h14V7a1 1 0 0 0-1-1H6Z"/>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</ng-container>
+
+		<button type="button" class="botao-salvar">Salvar fornecedor</button>
+	</form>
+</section>
