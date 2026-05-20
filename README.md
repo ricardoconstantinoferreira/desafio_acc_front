@@ -50,7 +50,7 @@ Passos:
 
 2. Executar a aplicação em desenvolvimento
 
-	npm start
+	npm start ou ng start --open
 
 3. Acessar no navegador
 
@@ -64,5 +64,5 @@ Passos:
 
 ## Observações
 
-- A aplicação depende de uma API backend para persistência.
+- A aplicação depende de uma API backend para persistência. Que está no github https://github.com/ricardoconstantinoferreira/desafio_acc
 - A validação de CEP utiliza o serviço público ViaCEP.
