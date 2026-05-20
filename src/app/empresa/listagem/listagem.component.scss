@@ -160,6 +160,24 @@ button {
   margin: 0 0 16px;
 }
 
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-actions button {
+  margin-top: 0;
+}
+
+.btn-cancel {
+  background: #4b5563;
+}
+
+.btn-confirm-delete {
+  background: #b91c1c;
+}
+
 .modal-success {
   color: #047857;
 }

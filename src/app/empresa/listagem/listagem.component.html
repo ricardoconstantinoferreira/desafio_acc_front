@@ -20,9 +20,9 @@
         </thead>
         <tbody>
           <tr *ngFor="let empresa of paginatedEmpresas">
-            <td>{{ empresa.documento }}</td>
+            <td>{{ formatDocumento(empresa.documento) }}</td>
             <td>{{ empresa.fantasia }}</td>
-            <td>{{ empresa.cep }}</td>
+            <td>{{ formatCep(empresa.cep) }}</td>
             <td>
               <div class="table-actions">
                 <button type="button" class="btn-edit" (click)="editar(empresa)">Editar</button>
@@ -41,5 +41,24 @@
     </section>
   </main>
 
- 
+  <div *ngIf="showConfirmDeleteModal" class="modal-backdrop" (click)="cancelarRemocao()">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-delete-title" (click)="$event.stopPropagation()">
+      <h3 id="confirm-delete-title" class="modal-error">Confirmar remocao</h3>
+      <p>Tem certeza que deseja deletar essa empresa?</p>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" (click)="cancelarRemocao()">Cancelar</button>
+        <button type="button" class="btn-confirm-delete" (click)="confirmarRemocao()">Deletar</button>
+      </div>
+    </section>
+  </div>
+
+  <div *ngIf="showModal" class="modal-backdrop" (click)="closeModal()">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
+      <h3 id="modal-title" [class.modal-success]="modalType === 'success'" [class.modal-error]="modalType === 'error'">
+        {{ modalTitle }}
+      </h3>
+      <p>{{ modalMessage }}</p>
+      <button type="button" (click)="closeModal()">Fechar</button>
+    </section>
+  </div>
 </section>
