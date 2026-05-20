@@ -86,6 +86,18 @@
 			</div>
 		</ng-container>
 
-		<button type="button" class="botao-salvar">Salvar fornecedor</button>
+		<button type="button" class="botao-salvar" [disabled]="salvando" (click)="salvarFornecedor()">
+			{{ salvando ? 'Salvando...' : 'Salvar fornecedor' }}
+		</button>
 	</form>
+
+    <div *ngIf="showModal" class="modal-backdrop" (click)="closeModal()">
+        <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
+        <h3 id="modal-title" [class.modal-success]="modalType === 'success'" [class.modal-error]="modalType === 'error'">
+            {{ modalTitle }}
+        </h3>
+        <p>{{ modalMessage }}</p>
+        <button type="button" (click)="closeModal()">Fechar</button>
+        </section>
+    </div>
 </section>

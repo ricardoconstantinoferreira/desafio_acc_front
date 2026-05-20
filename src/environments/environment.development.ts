@@ -2,6 +2,7 @@ export const environment = {
   production: false,
   api: {
     baseUrl: 'http://localhost:8080',
-    empresasPath: '/api/empresas'
+    empresasPath: '/api/empresas',
+    fornecedoresPath: '/api/fornecedores'
   }
 };
