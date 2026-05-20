@@ -23,7 +23,7 @@ export class FornecedorService {
     return this.http.post<Fornecedor>(this.uri, fornecedor, this.options);
   }
 
-  atualizar(id: number, fornecedor: Pick<Fornecedor, 'documento' | 'nome' | 'cep'>): Observable<Fornecedor> {
+  atualizar(id: number, fornecedor: Pick<Fornecedor, 'documento' | 'nome' | 'cep' | 'email' | 'nascimento' | 'rg'>): Observable<Fornecedor> {
     return this.http.put<Fornecedor>(`${this.uri}/${id}`, fornecedor, this.options);
   }
 
@@ -37,5 +37,11 @@ export class FornecedorService {
 
   getById(id: number): Observable<Fornecedor> {
     return this.http.get<Fornecedor>(`${this.uri}/${id}`);
+  }
+
+  buscarCep(cep: string): Observable<{ uf?: string; erro?: boolean } | null> {
+    return this.http
+      .get<{ uf?: string; erro?: boolean }>(`https://viacep.com.br/ws/${cep}/json/`)
+      .pipe(catchError(() => of(null)));
   }
 }
