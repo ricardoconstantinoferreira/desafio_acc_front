@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Empresa } from './empresa';
+import { Fornecedor } from '../fornecedor/fornecedor';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,13 @@ export class EmpresaService {
 
   getById(id: number): Observable<Empresa> {
     return this.http.get<Empresa>(`${this.uri}/${id}`);
+  }
+
+  vincularFornecedores(id: number, fornecedorIds: number[]): Observable<void> {
+    return this.http.post<void>(`${this.uri}/${id}/fornecedores`, fornecedorIds, this.options);
+  }
+
+  fornecedoresPorEmpresa(id: number): Observable<Fornecedor[]> {
+    return this.http.get<Fornecedor[]>(`${this.uri}/${id}/fornecedores`).pipe(catchError(() => of([])));
   }
 }

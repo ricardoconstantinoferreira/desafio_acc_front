@@ -38,4 +38,10 @@ export class FornecedorService {
   getById(id: number): Observable<Fornecedor> {
     return this.http.get<Fornecedor>(`${this.uri}/${id}`);
   }
+
+  buscarCep(cep: string): Observable<{ uf?: string; erro?: boolean } | null> {
+    return this.http
+      .get<{ uf?: string; erro?: boolean }>(`https://viacep.com.br/ws/${cep}/json/`)
+      .pipe(catchError(() => of(null)));
+  }
 }

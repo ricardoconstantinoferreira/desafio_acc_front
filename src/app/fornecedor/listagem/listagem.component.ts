@@ -185,6 +185,24 @@ export class ListagemComponent implements OnInit {
     return digits.replace(/^(\d{5})(\d)/, '$1-$2');
   }
 
+  isPessoaFisica(documento: string | number): boolean {
+    return this.onlyDigits(documento).length === 11;
+  }
+
+  formatDataNascimento(value: string | null | undefined): string {
+    if (!value) {
+      return '-';
+    }
+
+    const partes = value.split('-');
+
+    if (partes.length === 3) {
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    return value;
+  }
+
   private onlyDigits(value: string | number | null | undefined): string {
     return String(value ?? '').replace(/\D/g, '');
   }

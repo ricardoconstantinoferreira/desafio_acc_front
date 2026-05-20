@@ -1,0 +1,67 @@
+<section class="adicionar-fornecedores-page">
+	<header class="adicionar-fornecedores-header">
+		<h1>Adicionar Fornecedores</h1>
+	</header>
+
+	<main>
+		<section class="card">
+			<div class="card-heading">
+				<h2>Vincular empresa e fornecedores</h2>
+				<p>Selecione uma empresa cadastrada e um ou mais fornecedores para compor o relacionamento.</p>
+			</div>
+
+			<form class="fornecedores-form" autocomplete="off">
+				<div class="campo">
+					<label for="empresa">Empresa</label>
+					<select id="empresa" name="empresa" [(ngModel)]="selecao.empresaId">
+						<option value="">Selecione uma empresa</option>
+						<option *ngFor="let empresa of empresas" [value]="empresa.id">
+							{{ empresa.fantasia }} - {{ empresa.documento }}
+						</option>
+					</select>
+				</div>
+
+				<div class="campo">
+					<label for="fornecedores">Fornecedores</label>
+					<select id="fornecedores" name="fornecedores" multiple [(ngModel)]="selecao.fornecedorIds">
+						<option *ngFor="let fornecedor of fornecedores" [ngValue]="fornecedor.id">
+							{{ fornecedorDescricao(fornecedor) }}
+						</option>
+					</select>
+				</div>
+
+				<div class="resumo" *ngIf="!carregando">
+					<div>
+						<strong>Empresa selecionada:</strong>
+						<span>{{ empresaDescricao }}</span>
+					</div>
+					<div>
+						<strong>Fornecedores selecionados:</strong>
+						<span>{{ fornecedoresSelecionados.length }}</span>
+					</div>
+				</div>
+
+				<button
+					type="button"
+					class="botao-vincular"
+					[disabled]="carregando || !selecao.empresaId || selecao.fornecedorIds.length === 0 || vinculando"
+					(click)="vincular()"
+				>
+					{{ vinculando ? 'Vinculando...' : 'Vincular' }}
+				</button>
+
+				<p *ngIf="carregando" class="empty">Carregando empresas e fornecedores...</p>
+			</form>
+		</section>
+	</main>
+
+	<div *ngIf="showModal" class="modal-backdrop" (click)="closeModal()">
+		<section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
+			<h3 id="modal-title" [class.modal-success]="modalType === 'success'" [class.modal-error]="modalType === 'error'">
+				{{ modalTitle }}
+			</h3>
+			<p>{{ modalMessage }}</p>
+			<button type="button" (click)="closeModal()">Fechar</button>
+		</section>
+	</div>
+</section>

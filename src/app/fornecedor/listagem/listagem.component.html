@@ -32,6 +32,8 @@
 						<th>Documento</th>
 						<th>Nome</th>
 						<th>Email</th>
+						<th>RG</th>
+						<th>Data Nascimento</th>
 						<th>CEP</th>
 						<th>Acoes</th>
 					</tr>
@@ -41,6 +43,8 @@
 						<td>{{ formatDocumento(fornecedor.documento) }}</td>
 						<td>{{ fornecedor.nome }}</td>
 						<td>{{ fornecedor.email }}</td>
+						<td>{{ isPessoaFisica(fornecedor.documento) ? (fornecedor.rg || '-') : '-' }}</td>
+						<td>{{ isPessoaFisica(fornecedor.documento) ? formatDataNascimento(fornecedor.nascimento) : '-' }}</td>
 						<td>{{ formatCep(fornecedor.cep) }}</td>
 						<td>
 							<div class="table-actions">

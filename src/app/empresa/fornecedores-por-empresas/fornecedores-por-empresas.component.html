@@ -1,0 +1,58 @@
+<section class="fornecedores-empresa-page">
+	<header class="fornecedores-empresa-header">
+		<h1>Fornecedores Por Empresa</h1>
+	</header>
+
+	<main>
+		<section class="card">
+			<h2>Consulta de fornecedores por empresa</h2>
+
+			<div class="campo">
+				<label for="empresa">Empresa</label>
+				<select
+					id="empresa"
+					name="empresa"
+					[ngModel]="empresaIdSelecionada"
+					(ngModelChange)="onEmpresaChange($event)"
+				>
+					<option value="">Selecione uma empresa</option>
+					<option *ngFor="let empresa of empresas" [value]="empresa.id">
+						{{ empresa.fantasia }} - {{ formatDocumento(empresa.documento) }}
+					</option>
+				</select>
+			</div>
+
+			<p *ngIf="carregandoEmpresas" class="empty">Carregando empresas...</p>
+			<p *ngIf="!carregandoEmpresas && empresas.length === 0" class="empty">Nenhuma empresa cadastrada.</p>
+
+			<h3>Fornecedores da Empresa</h3>
+
+			<p *ngIf="empresaIdSelecionada && carregandoFornecedores" class="empty">Carregando fornecedores...</p>
+			<p *ngIf="empresaIdSelecionada && !carregandoFornecedores && fornecedores.length === 0" class="empty">Nenhum fornecedor vinculado para esta empresa.</p>
+			<p *ngIf="!empresaIdSelecionada" class="empty">Selecione uma empresa para visualizar os fornecedores.</p>
+
+			<table *ngIf="!carregandoFornecedores && fornecedores.length > 0" class="fornecedor-table">
+				<thead>
+					<tr>
+						<th>Documento</th>
+						<th>Nome</th>
+						<th>Email</th>
+						<th>RG</th>
+						<th>Data Nascimento</th>
+						<th>CEP</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let fornecedor of fornecedores">
+						<td>{{ formatDocumento(fornecedor.documento) }}</td>
+						<td>{{ fornecedor.nome }}</td>
+						<td>{{ fornecedor.email }}</td>
+						<td>{{ isPessoaFisica(fornecedor.documento) ? (fornecedor.rg || '-') : '-' }}</td>
+						<td>{{ isPessoaFisica(fornecedor.documento) ? formatDataNascimento(fornecedor.nascimento) : '-' }}</td>
+						<td>{{ formatCep(fornecedor.cep) }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+</section>
