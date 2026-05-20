@@ -32,7 +32,13 @@ export class CadastroComponent implements OnInit {
   modalMessage = '';
 
   ngOnInit(): void {
-    
+    const empresaState = history.state?.empresa as Empresa | undefined;
+
+    if (!empresaState) {
+      return;
+    }
+
+    this.populateFormForEdit(empresaState);
   }
 
   salvar(): void {
@@ -56,6 +62,7 @@ export class CadastroComponent implements OnInit {
           this.openModal('Atualizacao realizada', 'Empresa atualizada com sucesso.', 'success');
           this.editingEmpresaId = null;
           this.form.reset();
+          this.router.navigate(['/empresa/listagem']);
         },
         error: () => {
           this.openModal('Falha na atualizacao', 'Nao foi possivel atualizar a empresa. Tente novamente.', 'error');
@@ -112,5 +119,14 @@ export class CadastroComponent implements OnInit {
 
   private formatCep(value: string): string {
     return value.replace(/^(\d{5})(\d)/, '$1-$2');
+  }
+
+  private populateFormForEdit(empresa: Empresa): void {
+    this.editingEmpresaId = empresa.id;
+    this.form.patchValue({
+      documento: this.formatCnpj(this.onlyDigits(empresa.documento)),
+      nomeFantasia: empresa.fantasia,
+      cep: this.formatCep(this.onlyDigits(empresa.cep))
+    });
   }
 }

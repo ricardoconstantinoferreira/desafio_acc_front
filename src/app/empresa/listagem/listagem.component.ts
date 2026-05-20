@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmpresaService } from '../empresa.service';
 import { Empresa } from '../empresa';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listagem',
@@ -10,7 +11,7 @@ import { Empresa } from '../empresa';
 })
 export class ListagemComponent implements OnInit {
 
-  constructor(private service: EmpresaService) {}
+  constructor(private service: EmpresaService, private router: Router) {}
 
   empresas: Empresa[] = [];
   editingEmpresaId: number | null = null;
@@ -20,6 +21,8 @@ export class ListagemComponent implements OnInit {
   modalType: 'success' | 'error' = 'success';
   modalTitle = '';
   modalMessage = '';
+  showConfirmDeleteModal = false;
+  empresaToDelete: Empresa | null = null;
 
   ngOnInit(): void {
     this.loadEmpresas();
@@ -36,28 +39,48 @@ export class ListagemComponent implements OnInit {
   }
 
   editar(empresa: Empresa): void {
-    // const empresaApi = empresa as Empresa & { nomeFantasia?: string; id?: number | string };
-    // this.editingEmpresaId = Number(empresaApi.id ?? 0);
-    // this.form.patchValue({
-    //   documento: this.formatCnpj(this.onlyDigits("324324")),
-    //   nomeFantasia: empresaApi.fantasia ?? empresaApi.nomeFantasia ?? '',
-    //   cep: this.formatCep(this.onlyDigits(empresaApi.cep))
-    // });
-    // this.currentView = 'cadastro';
-    // this.router.navigate(['/empresa/cadastro']);
+    this.service.getById(empresa.id).subscribe({
+      next: (empresaDetalhe) => {
+        this.router.navigate(['/empresa/cadastro'], {
+          state: { empresa: empresaDetalhe }
+        });
+      },
+      error: () => {
+        this.openModal('Falha ao carregar', 'Nao foi possivel carregar os dados da empresa para edicao.', 'error');
+      }
+    });
   }
 
   remover(empresa: Empresa): void {
-    this.service.remover(empresa.id).subscribe({
+    this.empresaToDelete = empresa;
+    this.showConfirmDeleteModal = true;
+  }
+
+  confirmarRemocao(): void {
+    if (!this.empresaToDelete) {
+      this.showConfirmDeleteModal = false;
+      return;
+    }
+
+    this.service.remover(this.empresaToDelete.id).subscribe({
       next: () => {
-        this.empresas = this.empresas.filter((item) => item.id !== empresa.id);
+        this.empresas = this.empresas.filter((item) => item.id !== this.empresaToDelete?.id);
         this.adjustCurrentPage();
+        this.showConfirmDeleteModal = false;
+        this.empresaToDelete = null;
         this.openModal('Remocao realizada', 'Empresa removida com sucesso.', 'success');
       },
       error: () => {
+        this.showConfirmDeleteModal = false;
+        this.empresaToDelete = null;
         this.openModal('Falha na remocao', 'Nao foi possivel remover a empresa. Tente novamente.', 'error');
       }
     });
+  }
+
+  cancelarRemocao(): void {
+    this.showConfirmDeleteModal = false;
+    this.empresaToDelete = null;
   }
 
   get paginatedEmpresas(): Empresa[] {
@@ -100,5 +123,24 @@ export class ListagemComponent implements OnInit {
     if (this.currentPage < 1) {
       this.currentPage = 1;
     }
+  }
+
+  formatDocumento(value: string | number): string {
+    const digits = this.onlyDigits(value).slice(0, 14);
+
+    return digits
+      .replace(/^(\d{2})(\d)/, '$1.$2')
+      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/\.(\d{3})(\d)/, '.$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2');
+  }
+
+  formatCep(value: string | number): string {
+    const digits = this.onlyDigits(value).slice(0, 8);
+    return digits.replace(/^(\d{5})(\d)/, '$1-$2');
+  }
+
+  private onlyDigits(value: string | number | null | undefined): string {
+    return String(value ?? '').replace(/\D/g, '');
   }
 }
