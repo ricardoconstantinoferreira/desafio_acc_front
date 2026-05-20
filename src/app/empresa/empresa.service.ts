@@ -33,4 +33,8 @@ export class EmpresaService {
   listagem(): Observable<Empresa[]> {
     return this.http.get<Empresa[]>(this.uri).pipe(catchError(() => of([])));
   } 
+
+  getById(id: number): Observable<Empresa> {
+    return this.http.get<Empresa>(`${this.uri}/${id}`);
+  }
 }

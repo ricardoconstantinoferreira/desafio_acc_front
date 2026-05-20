@@ -4,8 +4,8 @@
   </header>
 
   <main>
-    <section *ngIf="currentView === 'cadastro'" class="card">
-      <h2>Cadastro de Empresas</h2>
+    <section class="card">
+      <h2>{{ editingEmpresaId !== null ? 'Alteracao de Empresa' : 'Cadastro de Empresas' }}</h2>
 
       <form [formGroup]="form" (ngSubmit)="salvar()" class="empresa-form">
         <label for="documento">Documento</label>
@@ -26,44 +26,8 @@
           CEP e obrigatorio.
         </small>
 
-        <button type="submit">Salvar empresa</button>
+        <button type="submit">{{ editingEmpresaId !== null ? 'Alterar' : 'Salvar empresa' }}</button>
       </form>
-    </section>
-
-    <section *ngIf="currentView === 'listagem'" class="card">
-      <h2>Listagem de Empresas</h2>
-
-      <p *ngIf="empresas.length === 0" class="empty">Nenhuma empresa cadastrada ate o momento.</p>
-
-      <table *ngIf="empresas.length > 0" class="empresa-table">
-        <thead>
-          <tr>
-            <th>Documento</th>
-            <th>Nome Fantasia</th>
-            <th>CEP</th>
-            <th>Acoes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let empresa of paginatedEmpresas">
-            <td>{{ empresa.documento }}</td>
-            <td>{{ empresa.fantasia }}</td>
-            <td>{{ empresa.cep }}</td>
-            <td>
-              <div class="table-actions">
-                <button type="button" class="btn-edit" (click)="editar(empresa)">Editar</button>
-                <button type="button" class="btn-remove" (click)="remover(empresa)">Remover</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div *ngIf="empresas.length > 0" class="paginacao">
-        <button type="button" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
-        <span>Pagina {{ currentPage }} de {{ totalPages }}</span>
-        <button type="button" (click)="nextPage()" [disabled]="currentPage === totalPages">Proxima</button>
-      </div>
     </section>
   </main>
 
