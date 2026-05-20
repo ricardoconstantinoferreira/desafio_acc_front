@@ -5,5 +5,11 @@ export const routes: Routes = [
 	{
 		path: 'empresa',
 		loadChildren: () => import('./empresa/empresa.module').then((m) => m.EmpresaModule)
+	},
+	{ path: '', redirectTo: 'fornecedor/cadastro', pathMatch: 'full'},
+	{
+		path: 'fornecedor',
+		loadChildren: () => import('./fornecedor/fornecedor.module').then((m) => m.FornecedorModule)
 	}
+
 ];
